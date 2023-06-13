@@ -56,7 +56,7 @@
       // 转盘变量
       const lightColor = "#ffe58f";
       const weightColor = "#ffd666";
-      const delay = 2000; // 转盘停止延迟时间 单位: 秒
+      const delay = 100; // 转盘停止延迟时间 单位: 秒
 
       // 背景变量
       const bgColor = "#ffa39e"; // 背景粉色
@@ -64,6 +64,8 @@
 
       // 浏览器宽度
       const outerWidth = window.outerWidth;
+
+      var currentIndex = null;
 
       // 奖品列表
       const prizes = [
@@ -136,12 +138,20 @@
           if (timer) {
             clearTimeout(timer);
             timer = null;
+            currentIndex = null;
           }
 
           timer = setTimeout(() => {
-            const index = lottery();
-            myLucky.stop(index);
+            currentIndex = lottery();
+            if (currentIndex !== null) {
+              myLucky.stop(currentIndex);
+            }
           }, delay);
+        },
+        end: function (prize) {
+          const title = prizes[currentIndex].fonts[0].text;
+          const txt = "恭喜🎉你中了" + title;
+          alert(txt);
         },
       });
     </script>

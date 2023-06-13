@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { LuckyWheel } from "@lucky-canvas/react";
 
+// https://github.com/buuing/lucky-canvas
 export default function App() {
   const [blocks] = useState([{ padding: "10px", background: "#869cfa" }]);
   const [prizes] = useState([
