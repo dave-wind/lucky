@@ -23,7 +23,8 @@ export default function App() {
   ]);
   const myLucky = useRef();
   return (
-    <div>
+    <div className="wrap">
+      <h3>在线抽奖</h3>
       <LuckyWheel
         ref={myLucky}
         width="300px"
