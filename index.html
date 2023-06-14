@@ -53,6 +53,8 @@
       <h1 class="h3">南门小学期末抽奖</h1>
       <div id="lucky"></div>
     </div>
+    <audio src="media/happy.mp3" id="media_success" type="audio/mp3"></audio>
+    <audio src="media/sorry.mp3" id="media_sorry" type="audio/mp3"></audio>
     <script>
       // 转盘变量
       const lightColor = "#ffe58f";
@@ -67,6 +69,10 @@
       const outerWidth = window.outerWidth;
 
       var currentIndex = null;
+
+      // 音效
+      var media_success = document.getElementById("media_success");
+      var media_sorry = document.getElementById("media_sorry");
 
       // 奖品列表
       const prizes = [
@@ -150,9 +156,16 @@
           }, delay);
         },
         end: function (prize) {
-          const title = prizes[currentIndex].fonts[0].text;
-          const txt = "恭喜🎉你中了" + title;
-          alert(txt);
+          var title = prizes[currentIndex].fonts[0].text;
+          var txt = "恭喜🎉你中了" + title;
+
+          if (currentIndex == 4) {
+            media_sorry.play();
+            txt = "😭很遗憾你中了" + title;
+          } else {
+            media_success.play();
+          }
+          alert(txt + currentIndex);
         },
       });
     </script>
