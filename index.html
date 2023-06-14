@@ -23,9 +23,9 @@
       #root {
         position: absolute;
         left: 50%;
-        top: 60px;
-        width: 800px;
-        margin-left: -400px;
+        top: 20%;
+        width: 1600px;
+        margin-left: -800px;
         z-index: 2;
       }
       #lucky {
@@ -34,15 +34,64 @@
       .h3 {
         width: 100%;
         text-align: center;
-        margin-bottom: 30px;
+        margin-bottom: 100px;
+        font-size: 60px;
         color: #fff;
       }
-      @media screen and (max-width: 414px) {
+      @media screen and (max-width: 450px) {
         #root {
           width: 100%;
           left: 0;
           margin-left: initial;
         }
+        .h3 {
+          font-size: 30px;
+        }
+      }
+
+      /* tips */
+
+      .hidden {
+        display: none;
+      }
+
+      .custom-alert {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+
+      .custom-alert-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .custom-alert-message {
+        display: block;
+        margin-bottom: 20px;
+      }
+
+      .custom-alert-close {
+        background-color: #2196f3;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 0;
+        cursor: pointer;
+        border-radius: 5px;
       }
     </style>
     <script src="https://unpkg.com/lucky-canvas@1.7.25"></script>
@@ -52,6 +101,12 @@
       <h1 class="h3">南门小学期末抽奖</h1>
       <div id="lucky"></div>
     </div>
+    <audio id="media_success" preload="auto">
+      <source src="media/happy.mp3" type="audio/mp3" />
+    </audio>
+    <audio id="media_sorry" preload="auto">
+      <source src="media/sorry.mp3" type="audio/mp3" />
+    </audio>
     <script>
       // 转盘变量
       const lightColor = "#ffe58f";
@@ -67,31 +122,58 @@
 
       var currentIndex = null;
 
+      // 音乐
+      document.addEventListener("touchstart", function () {
+        var media_success = document.getElementById("media_success");
+        var media_sorry = document.getElementById("media_sorry");
+        media_success.play();
+        media_success.pause();
+        media_success.currentTime = 0;
+
+        setTimeout(() => {
+          media_sorry.play();
+          media_sorry.pause();
+          media_sorry.currentTime = 0;
+        }, 300);
+      });
+
+      document.addEventListener("click", function () {
+        var media_success = document.getElementById("media_success");
+        var media_sorry = document.getElementById("media_sorry");
+        media_success.play().catch(function (error) {
+          console.log("播放失败:", error);
+        });
+        media_sorry.play().catch(function (error) {
+          console.log("播放失败:", error);
+        });
+      });
+
+      const value = outerWidth < 450 ? "20px" : "50px";
       // 奖品列表
       const prizes = [
         {
           background: lightColor,
-          fonts: [{ text: "卡通橡皮", top: "15px" }],
+          fonts: [{ text: "卡通橡皮", top: value, fontSize: value }],
           weight: 0.25,
         },
         {
           background: weightColor,
-          fonts: [{ text: "太空人不倒翁", top: "15px" }],
+          fonts: [{ text: "太空人不倒翁", top: value, fontSize: value }],
           weight: 0.25,
         },
         {
           background: lightColor,
-          fonts: [{ text: "贴纸卡片奖状任选", top: "15px" }],
+          fonts: [{ text: "贴纸卡片奖状任选", top: value, fontSize: value }],
           weight: 0.1,
         },
         {
           background: weightColor,
-          fonts: [{ text: "期末成绩A+", top: "15px" }],
+          fonts: [{ text: "期末成绩A+", top: value, fontSize: value }],
           weight: 0.3,
         },
         {
           background: "#ffffff",
-          fonts: [{ text: "谢谢惠顾", top: "15px" }],
+          fonts: [{ text: "谢谢惠顾", top: value, fontSize: value }],
           weight: 0.1,
         },
       ];
@@ -118,8 +200,8 @@
 
       // 转盘
       const myLucky = new LuckyCanvas.LuckyWheel("#lucky", {
-        width: outerWidth < 414 ? "350px" : "450px",
-        height: outerWidth < 414 ? "350px" : "450px",
+        width: outerWidth < 450 ? "380px" : "900px",
+        height: outerWidth < 450 ? "380px" : "900px",
         blocks: [{ padding: "20px", background: "#f5222d" }],
         prizes: prizes,
         buttons: [
@@ -129,7 +211,7 @@
             radius: "30%",
             background: "#f5222d",
             pointer: true,
-            fonts: [{ text: "Start", top: "-10px" }],
+            fonts: [{ text: "GO!", top: "-30px", fontSize: "50px" }],
           },
         ],
         start: function () {
@@ -149,9 +231,18 @@
           }, delay);
         },
         end: function (prize) {
-          const title = prizes[currentIndex].fonts[0].text;
-          const txt = "恭喜🎉你中了" + title;
-          alert(txt);
+          var media_success = document.getElementById("media_success");
+          var media_sorry = document.getElementById("media_sorry");
+
+          var title = prizes[currentIndex].fonts[0].text;
+          var txt = "恭喜🎉你中了" + title;
+          if (currentIndex == 4) {
+            media_sorry.play();
+            txt = "😭很遗憾你中了" + title;
+          } else {
+            media_success.play();
+          }
+          alert(txt + "~");
         },
       });
     </script>
