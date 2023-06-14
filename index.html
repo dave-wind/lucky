@@ -53,8 +53,12 @@
       <h1 class="h3">南门小学期末抽奖</h1>
       <div id="lucky"></div>
     </div>
-    <audio src="media/happy.mp3" id="media_success" type="audio/mp3"></audio>
-    <audio src="media/sorry.mp3" id="media_sorry" type="audio/mp3"></audio>
+    <audio id="media_success" preload="auto">
+      <source src="media/happy.mp3" type="audio/mp3" />
+    </audio>
+    <audio id="media_sorry" preload="auto">
+      <source src="media/happy.mp3" type="audio/mp3" />
+    </audio>
     <script>
       // 转盘变量
       const lightColor = "#ffe58f";
@@ -164,7 +168,7 @@
           } else {
             media_success.play();
           }
-          alert(txt);
+          alert(txt + "~");
         },
       });
     </script>
