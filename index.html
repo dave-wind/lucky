@@ -38,11 +38,14 @@
         font-size: 60px;
         color: #fff;
       }
-      @media screen and (max-width: 414px) {
+      @media screen and (max-width: 450px) {
         #root {
-          width: 380px;
+          width: 100%;
           left: 0;
           margin-left: initial;
+        }
+        .h3 {
+          font-size: 30px;
         }
       }
 
@@ -134,31 +137,43 @@
         }, 300);
       });
 
+      document.addEventListener("click", function () {
+        var media_success = document.getElementById("media_success");
+        var media_sorry = document.getElementById("media_sorry");
+        media_success.play().catch(function (error) {
+          console.log("播放失败:", error);
+        });
+        media_sorry.play().catch(function (error) {
+          console.log("播放失败:", error);
+        });
+      });
+
+      const value = outerWidth < 450 ? "20px" : "50px";
       // 奖品列表
       const prizes = [
         {
           background: lightColor,
-          fonts: [{ text: "卡通橡皮", top: "50px", fontSize: "50px" }],
+          fonts: [{ text: "卡通橡皮", top: value, fontSize: value }],
           weight: 0.25,
         },
         {
           background: weightColor,
-          fonts: [{ text: "太空人不倒翁", top: "50px", fontSize: "50px" }],
+          fonts: [{ text: "太空人不倒翁", top: value, fontSize: value }],
           weight: 0.25,
         },
         {
           background: lightColor,
-          fonts: [{ text: "贴纸卡片奖状任选", top: "50px", fontSize: "50px" }],
+          fonts: [{ text: "贴纸卡片奖状任选", top: value, fontSize: value }],
           weight: 0.1,
         },
         {
           background: weightColor,
-          fonts: [{ text: "期末成绩A+", top: "50px", fontSize: "50px" }],
+          fonts: [{ text: "期末成绩A+", top: value, fontSize: value }],
           weight: 0.3,
         },
         {
           background: "#ffffff",
-          fonts: [{ text: "谢谢惠顾", top: "50px", fontSize: "50px" }],
+          fonts: [{ text: "谢谢惠顾", top: value, fontSize: value }],
           weight: 0.1,
         },
       ];
@@ -185,8 +200,8 @@
 
       // 转盘
       const myLucky = new LuckyCanvas.LuckyWheel("#lucky", {
-        width: outerWidth < 414 ? "350px" : "900px",
-        height: outerWidth < 414 ? "350px" : "900px",
+        width: outerWidth < 450 ? "380px" : "900px",
+        height: outerWidth < 450 ? "380px" : "900px",
         blocks: [{ padding: "20px", background: "#f5222d" }],
         prizes: prizes,
         buttons: [
